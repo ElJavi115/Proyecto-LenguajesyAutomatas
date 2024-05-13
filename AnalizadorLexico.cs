@@ -12,6 +12,7 @@ public class AnalizadorLexico
     private List<Token> tokens;
     private List<Identificador> identificadores;
     private static HashSet<KeyValuePair<string, string>> setIdentificadores;
+    private string[] tokensLinea;
 
     public string Analizar(string codigo)
     {
@@ -27,12 +28,17 @@ public class AnalizadorLexico
 
         foreach (string lineaCodigo in lineas)
         {
+            Console.WriteLine(lineaCodigo);
             linea++;
             int columna = 1;
-            string[] tokensLinea = Regex.Split(lineaCodigo.Trim(), "\\s+|(?=[{}()\\[\\]=;,.])|(?<=[{}()\\[\\]=;,])");
-
+            tokensLinea = Regex.Split(lineaCodigo.Trim(), "\\s+|(?=[{}()\\[\\]=;,.])|(?<=[{}()\\[\\]=;,])");
             foreach (string token in tokensLinea)
             {
+                if (token.Equals(""))
+                {
+                    columna++;
+                    continue;
+                }
                 string tipo = GetTipo(token);
                 if (tipo.Equals("Palabra reservada") || tipo.Equals("Tipo de dato"))
                 {
@@ -48,19 +54,19 @@ public class AnalizadorLexico
                     {
                         tipoAnterior = "Nombre de Clase";
                     }
-                    if (tipoAnterior.Equals("def"))
+                    if (tipoAnterior.Equals("funcion"))
                     {
                         tipoAnterior = "Nombre de Metodo";
                     }
-                    if (tipoAnterior.Equals("int"))
+                    if (tipoAnterior.Equals("entero"))
                     {
                         tipoAnterior = "Variable Entera";
                     }
-                    if (tipoAnterior.Equals("float"))
+                    if (tipoAnterior.Equals("flotante"))
                     {
                         tipoAnterior = "Variable Flotante";
                     }
-                    if (tipoAnterior.Equals("boolean"))
+                    if (tipoAnterior.Equals("booleano"))
                     {
                         tipoAnterior = "Variable Booleana";
                     }
@@ -113,11 +119,11 @@ public class AnalizadorLexico
 
     private static string GetTipo(string token)
     {
-        if (Regex.IsMatch(token, "clase|def|si|sino|mientras|return"))
+        if (Regex.IsMatch(token, "clase|funcion|si|sino|mientras|retorna|para"))
         {
             return "Palabra reservada";
         }
-        if (Regex.IsMatch(token, "int|float|boolean|string"))
+        if (Regex.IsMatch(token, "entero|flotante|booleano|string"))
         {
             return "Tipo de dato";
         }

@@ -27,7 +27,7 @@ public class AnalizadorSintactico
         index += Match("{");
         while (index < tokens.Count - 1)
         {
-            if (tokens[index].Valor.Equals("def"))
+            if (tokens[index].Valor.Equals("funcion"))
             {
                 Funcion();
             }
@@ -58,7 +58,7 @@ public class AnalizadorSintactico
 
     private void Funcion()
     {
-        if (Match("def") == 1)
+        if (Match("funcion") == 1)
         {
             index++;
             estaEnMetodo = true;
@@ -143,7 +143,7 @@ public class AnalizadorSintactico
             {
                 Condicional();
             }
-            else if (palabraReservada.Equals("for"))
+            else if (palabraReservada.Equals("para"))
             {
                 CicloFor();
             }
@@ -151,9 +151,9 @@ public class AnalizadorSintactico
             {
                 CicloWhile();
             }
-            else if (palabraReservada.Equals("return"))
+            else if (palabraReservada.Equals("retorna"))
             {
-                Match("return");
+                Match("retorna");
                 if (tokens[index].Tipo.Equals("Identificador"))
                 {
                     Identificador();
@@ -192,7 +192,7 @@ public class AnalizadorSintactico
 
     private void CicloFor()
     {
-        index += Match("for");
+        index += Match("para");
         index += Match("(");
         Declaracion();
         Expresion();
