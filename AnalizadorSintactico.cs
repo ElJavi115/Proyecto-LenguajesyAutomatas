@@ -229,7 +229,8 @@ public class AnalizadorSintactico
     {
         if (index < tokens.Count && (tokens[index].Valor.Equals("+") ||
                 tokens[index].Valor.Equals("-") || tokens[index].Valor.Equals("<") ||
-                tokens[index].Valor.Equals(">") || tokens[index].Valor.Equals("==")))
+                tokens[index].Valor.Equals(">") || tokens[index].Valor.Equals("==") ||
+                tokens[index].Valor.Equals("/")))
         {
             index += Match(tokens[index].Valor);
             Termino();
